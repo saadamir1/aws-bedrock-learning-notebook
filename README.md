@@ -10,16 +10,17 @@ A comprehensive Jupyter notebook demonstrating Amazon Bedrock's Converse API thr
 
 This single notebook takes you from basic prompts to advanced GenAI patterns:
 
-| Section | Concept | Model Used | Difficulty |
-|---------|---------|------------|------------|
-| **1** | Basic Text Generation | Titan Text Express | ⭐ Beginner |
-| **2** | RAG with Knowledge Base | Claude 3 Haiku | ⭐⭐ Intermediate |
-| **3** | Multi-Turn Conversations | Claude 3 Haiku | ⭐⭐ Intermediate |
-| **4** | Prompt Templates | Nova Micro | ⭐⭐⭐ Advanced |
+| Section | Concept                  | Model Used         | Difficulty        |
+| ------- | ------------------------ | ------------------ | ----------------- |
+| **1**   | Basic Text Generation    | Titan Text Express | ⭐ Beginner       |
+| **2**   | RAG with Knowledge Base  | Claude 3 Haiku     | ⭐⭐ Intermediate |
+| **3**   | Multi-Turn Conversations | Claude 3 Haiku     | ⭐⭐ Intermediate |
+| **4**   | Prompt Templates         | Nova Micro         | ⭐⭐⭐ Advanced   |
 
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - AWS Account with Bedrock access
 - Python 3.8+
 - Jupyter Notebook or JupyterLab
@@ -29,7 +30,7 @@ This single notebook takes you from basic prompts to advanced GenAI patterns:
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/aws-bedrock-learning-notebook.git
+git clone https://github.com/saadamir1/aws-bedrock-learning-notebook.git
 cd aws-bedrock-learning-notebook
 
 # Install dependencies
@@ -51,6 +52,7 @@ Before running the notebook, enable these models in [AWS Bedrock Console](https:
 3. **Amazon Nova Micro** (`us.amazon.nova-micro-v1:0`)
 
 **How to enable**:
+
 - Go to AWS Bedrock Console → **Model access** → **Manage model access**
 - Check the boxes for the models above → **Request model access**
 - Wait for approval (usually instant)
@@ -58,9 +60,11 @@ Before running the notebook, enable these models in [AWS Bedrock Console](https:
 ## 📚 Notebook Structure
 
 ### Section 1: Basic Text Generation 🔤
+
 **Lines: ~20** | **Runtime: <1 sec**
 
 Learn the fundamentals of the Converse API:
+
 - Single-turn prompt/response pattern
 - Using Amazon Titan Text Express
 - Understanding response structure
@@ -78,9 +82,11 @@ response = bedrock.converse(
 ---
 
 ### Section 2: RAG with Knowledge Base 📖
+
 **Lines: ~25** | **Runtime: 2-5 sec**
 
 Implement Retrieval-Augmented Generation:
+
 - Connect to S3-backed Knowledge Base
 - Retrieve relevant document context
 - Generate contextual answers with Claude
@@ -98,7 +104,8 @@ response = agent_runtime.retrieve_and_generate(
 
 **Output Example**: Answer based on your internal documentation
 
-**⚠️ Setup Required**: 
+**⚠️ Setup Required**:
+
 1. Create S3 bucket with documents
 2. Create Knowledge Base in Bedrock console
 3. Update `knowledgeBaseId` in notebook (currently: placeholder)
@@ -106,15 +113,18 @@ response = agent_runtime.retrieve_and_generate(
 ---
 
 ### Section 3: Multi-Turn Conversational Chatbot 💬
+
 **Lines: ~100** | **Runtime: <2 sec**
 
 Build a context-aware chatbot:
+
 - Define system prompts (personality/role)
 - Maintain conversation history
 - Handle follow-up questions
 - Configure inference parameters
 
 **Key Concepts**:
+
 - **System Prompt**: Defines chatbot personality
 - **Message History**: Enables contextual responses
 - **Inference Config**: Controls creativity (temperature, topP, maxTokens)
@@ -132,16 +142,19 @@ messages.append({"role": "assistant", "content": [{"text": first_reply}]})
 messages.append({"role": "user", "content": [{"text": "Follow-up"}]})
 ```
 
-**Output Example**: 
+**Output Example**:
+
 - First: "3 rock songs"
 - Second: "3 rock songs by UK artists" (remembers previous request!)
 
 ---
 
 ### Section 4: Prompt Templates 🎨
+
 **Lines: ~150** | **Runtime: 2-3 sec**
 
 Create reusable prompt patterns:
+
 - Template creation with placeholders `{{variable}}`
 - Variable substitution via `promptVariables`
 - Template reuse across multiple inputs
@@ -179,15 +192,19 @@ response = bedrock.converse(
 ## 💻 Running the Notebook
 
 ### Option 1: Run All Cells
+
 ```
 Cell → Run All
 ```
+
 Executes all examples sequentially (recommended for first run)
 
 ### Option 2: Run Specific Sections
+
 Click on any section and press `Shift + Enter` to run individual examples
 
 ### Option 3: Run from Command Line
+
 ```bash
 jupyter nbconvert --to notebook --execute bedrock_examples.ipynb
 ```
@@ -195,7 +212,9 @@ jupyter nbconvert --to notebook --execute bedrock_examples.ipynb
 ## 🔧 Configuration
 
 ### AWS Region
+
 Change region in notebook if needed:
+
 ```python
 bedrock = boto3.client("bedrock-runtime", region_name="us-west-2")  # Change here
 ```
@@ -203,7 +222,9 @@ bedrock = boto3.client("bedrock-runtime", region_name="us-west-2")  # Change her
 **Supported Regions**: `us-east-1`, `us-west-2`, `eu-west-1`, `ap-northeast-1`, etc.
 
 ### Inference Parameters
+
 Adjust model creativity/behavior:
+
 ```python
 inferenceConfig = {
     "temperature": 0.7,   # 0=deterministic, 1=creative
@@ -213,11 +234,13 @@ inferenceConfig = {
 ```
 
 ### Knowledge Base Setup (Section 2 Only)
+
 1. Create S3 bucket: `my-bedrock-kb-bucket`
 2. Upload documents (PDF, TXT, MD, etc.)
 3. Create Knowledge Base in Bedrock console
 4. Copy Knowledge Base ID
 5. Update in notebook:
+
 ```python
 "knowledgeBaseId": "YOUR_KB_ID_HERE",  # Replace this!
 ```
@@ -226,15 +249,16 @@ inferenceConfig = {
 
 Approximate AWS costs per notebook run (all sections):
 
-| Section | Tokens | Estimated Cost |
-|---------|--------|----------------|
-| Basic Text Gen | ~40 | $0.00002 |
-| RAG Query | ~500 | $0.0003 |
-| Chatbot (2 turns) | ~200 | $0.0001 |
-| Prompt Template (2 calls) | ~600 | $0.0004 |
-| **Total per run** | ~1,340 | **~$0.001** |
+| Section                   | Tokens | Estimated Cost |
+| ------------------------- | ------ | -------------- |
+| Basic Text Gen            | ~40    | $0.00002       |
+| RAG Query                 | ~500   | $0.0003        |
+| Chatbot (2 turns)         | ~200   | $0.0001        |
+| Prompt Template (2 calls) | ~600   | $0.0004        |
+| **Total per run**         | ~1,340 | **~$0.001**    |
 
 **Note**: Costs may vary based on:
+
 - Input/output token counts
 - Model selection (Claude costs more than Titan)
 - Knowledge Base query complexity
@@ -244,38 +268,50 @@ Approximate AWS costs per notebook run (all sections):
 ## 🐛 Troubleshooting
 
 ### `AccessDeniedException: Could not access model`
+
 **Solution**: Enable model access in Bedrock console
+
 ```
 AWS Console → Bedrock → Model access → Manage model access → Select models → Request access
 ```
 
 ### `ResourceNotFoundException: Knowledge base not found`
+
 **Solution**: Update `knowledgeBaseId` in Section 2
+
 - Create Knowledge Base in Bedrock console first
 - Copy the KB ID (format: `XXXXXXXXXX`)
 - Paste into notebook
 
 ### `ValidationException: The security token included in the request is expired`
+
 **Solution**: Refresh AWS credentials
+
 ```bash
 aws configure
 # Or refresh temporary credentials
 ```
 
 ### `ModuleNotFoundError: No module named 'boto3'`
+
 **Solution**: Install requirements
+
 ```bash
 pip install -r requirements.txt
 ```
 
 ### `ConflictException: Prompt already exists` (Section 4)
+
 **This is normal!** The code handles this automatically:
+
 - First run: Creates template
 - Subsequent runs: Reuses existing template
 - No action needed
 
 ### Jupyter Kernel Crashes
+
 **Solution**: Reduce `maxTokens` in inference config
+
 ```python
 "maxTokens": 256  # Reduce from 512
 ```
@@ -283,6 +319,7 @@ pip install -r requirements.txt
 ## 🔒 Security Best Practices
 
 ### ✅ DO
+
 - Use IAM roles with least privilege
 - Store credentials in `~/.aws/credentials`
 - Enable AWS CloudTrail logging
@@ -290,6 +327,7 @@ pip install -r requirements.txt
 - Review AWS billing regularly
 
 ### ❌ DON'T
+
 - Commit AWS credentials to Git (`.gitignore` prevents this)
 - Share Knowledge Base IDs publicly
 - Use root account credentials
@@ -297,12 +335,14 @@ pip install -r requirements.txt
 - Expose model ARNs unnecessarily
 
 ### Included Security Files
+
 - **`.gitignore`**: Prevents credential commits
 - **`.env`** support (optional): Store KB IDs as environment variables
 
 ## 📖 Learning Path
 
 ### Recommended Order
+
 1. ✅ Run Section 1 → Understand basic API
 2. ✅ Read Section 3 code → See conversation flow
 3. ✅ Run Section 3 → Experience multi-turn chat
@@ -311,6 +351,7 @@ pip install -r requirements.txt
 6. 🔄 Return to Section 2 after creating Knowledge Base
 
 ### Next Steps After This Notebook
+
 - 🔗 **[AWS Bedrock Agents](#)** - Tool use and function calling
 - 🔗 **[AWS Bedrock Guardrails](#)** - Content filtering and safety
 - 🔗 **[AWS Bedrock Flows](#)** - Complex workflow orchestration
@@ -319,6 +360,7 @@ pip install -r requirements.txt
 ## 🎓 Course Information
 
 This notebook was created while completing:
+
 - **Course**: AWS Generative AI for Developers
 - **Platform**: Coursera
 - **Topics Covered**: Bedrock Runtime API, RAG, Agents, Prompt Engineering
@@ -328,23 +370,27 @@ This notebook was created while completing:
 ## 📚 Additional Resources
 
 ### Official Documentation
+
 - [AWS Bedrock Documentation](https://docs.aws.amazon.com/bedrock/)
 - [Converse API Reference](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html)
 - [Boto3 Bedrock Runtime](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/bedrock-runtime.html)
 - [Knowledge Bases for Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base.html)
 
 ### Helpful Guides
+
 - [Bedrock Pricing Calculator](https://aws.amazon.com/bedrock/pricing/)
 - [Model Selection Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/models-supported.html)
 - [Prompt Engineering Best Practices](https://docs.anthropic.com/claude/docs/prompt-engineering)
 
 ### Community
+
 - [AWS Bedrock GitHub Examples](https://github.com/aws-samples/amazon-bedrock-samples)
 - [r/aws Reddit Community](https://reddit.com/r/aws)
 
 ## 🤝 Contributing
 
 Found a bug or want to improve the notebook?
+
 1. Open an issue describing the problem
 2. Or submit a pull request with fixes
 3. Suggestions for new examples welcome!

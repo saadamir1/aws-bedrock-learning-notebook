@@ -1,0 +1,13 @@
+
+# AWS SDK for Python
+boto3>=1.34.0
+
+# Jupyter Notebook support
+notebook>=7.0.0
+ipykernel>=6.29.0
+
+# Optional: Enhanced notebook experience
+nbformat>=5.9.0
+
+# Optional: For better output formatting in terminal
+colorama>=0.4.6
